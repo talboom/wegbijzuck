@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Upload</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.3/css/bulma.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="container">
+        <div id="topBar">Ook op Signal</div>
+        <div id="toggleLang">
+            <button id="nlButton" class="active">NL</button>
+            <button id="enButton">EN</button>
+        </div>
+        <div id="intro">
+            <div id="introTitle">Waarom deze website?</div>
+            <p id="introText">Op basis van dit <a href="https://nos.nl/artikel/2557235-gaan-of-blijven-overstap-van-whatsapp-naar-signal-is-dilemma" target="_blank">artikel</a> heb ik deze website gemaakt om te laten zien dat je ook op Signal zit. Je kunt dit gebruiken om een afbeelding voor WhatsApp te maken.</p>
+            <p id="quote">"Gaan of blijven? Overstap van WhatsApp naar Signal is dilemma"</p>
+        </div>
+        <h1 class="title">Upload een afbeelding</h1>
+        <form id="uploadForm">
+            <div class="file has-name is-boxed">
+                <label class="file-label">
+                    <input class="file-input" type="file" id="imageInput" accept="image/*">
+                    <span class="file-cta">
+                        <span class="file-icon">
+                            <i class="fas fa-upload"></i>
+                        </span>
+                        <span class="file-label">
+                            Kies een bestand…
+                        </span>
+                    </span>
+                    <span class="file-name">
+                        Geen bestand geüpload
+                    </span>
+                    <button id="uploadNewImage" class="button is-small is-info" style="display: none;">Upload een nieuwe afbeelding</button>
+                </label>
+            </div>
+        </form>
+        <div id="imagePreview">
+            <i id="editIcon" class="fas fa-edit"></i>
+        </div>
+        <button id="downloadButton" class="button is-success" style="display: none;">Download afbeelding</button>
+        <canvas id="canvas"></canvas>
+        <div id="linkedinBar">
+            <a href="https://www.linkedin.com/in/thijs-talboom/" target="_blank">
+                <i class="fab fa-linkedin"></i> Connect with me on LinkedIn
+            </a>
+        </div>
+    </div>
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <script src="language.js"></script>
+    <script src="upload.js"></script>
+    <script src="drag.js"></script>
+    <script src="download.js"></script>
+</body>
+</html>
