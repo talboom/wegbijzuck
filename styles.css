@@ -22,14 +22,15 @@ body {
     position: relative;
 }
 #topBar {
-    background-color: #3a76f0; /* Signal app blue color */
-    color: white;
+    background-color: white;
+    color: #3a76f0; /* Signal app blue color */
     text-align: center;
     padding: 10px;
     font-weight: bold;
     text-transform: uppercase;
     width: 100%;
     margin: 0;
+    font-size: 2em; /* Make the title 2x as big */
 }
 #toggleLang {
     position: absolute;
@@ -45,9 +46,13 @@ body {
     border: none;
     padding: 5px 10px;
     cursor: pointer;
+    transition: all 0.3s ease;
 }
 #toggleLang button.active {
     background-color: white;
+}
+#toggleLang button:hover {
+    background-color: #eee;
 }
 #intro {
     margin-bottom: 20px;
@@ -68,33 +73,67 @@ body {
     display: inline-block;
     max-width: 800px;
     width: 100%;
+    max-height: 800px;
+    height: auto;
+    aspect-ratio: 1 / 1; /* Ensure it is a square */
     margin: 20px 0;
     border: 2px solid #ccc;
 }
 #spotlight {
     position: absolute;
     cursor: move;
-    width: 400px;
-    height: 400px;
+    width: 100%;
+    height: 100%;
     background-color: transparent;
-    border: 2px solid rgba(169, 169, 169, 0.5);
-    box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.5);
+    border: 2px solid rgba(169, 169, 169, 0.8);
+    box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.6);
     z-index: 1;
+    transition: border 0.2s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .resize-handle {
-    width: 10px;
-    height: 10px;
-    background-color: white;
-    border: 2px solid rgba(169, 169, 169, 0.8);
+    width: 25px;
+    height: 25px;
+    background-color: transparent;
+    border: none;
     position: absolute;
     z-index: 2;
 }
 
-.resize-handle.nw { top: -5px; left: -5px; cursor: nw-resize; }
-.resize-handle.ne { top: -5px; right: -5px; cursor: ne-resize; }
-.resize-handle.sw { bottom: -5px; left: -5px; cursor: sw-resize; }
-.resize-handle.se { bottom: -5px; right: -5px; cursor: se-resize; }
+.resize-handle.nw { 
+    top: -2px; 
+    left: -2px; 
+    cursor: nw-resize; 
+    border-left: 5px solid black; 
+    border-top: 5px solid black; 
+}
+
+.resize-handle.ne { 
+    top: -2px; 
+    right: -2px; 
+    cursor: ne-resize; 
+    border-right: 5px solid black; 
+    border-top: 5px solid black; 
+}
+
+.resize-handle.sw { 
+    bottom: -2px; 
+    left: -2px; 
+    cursor: sw-resize; 
+    border-left: 5px solid black; 
+    border-bottom: 5px solid black; 
+}
+
+.resize-handle.se { 
+    bottom: -2px; 
+    right: -2px; 
+    cursor: se-resize; 
+    border-right: 5px solid black; 
+    border-bottom: 5px solid black; 
+}
 
 #downloadButton {
     margin-top: 10px;
@@ -102,21 +141,31 @@ body {
     margin-left: auto;
     margin-right: auto;
     margin-bottom: 50px; /* Add margin to ensure visibility */
+    padding: 10px 20px;
+    background-color: #3a76f0;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+#downloadButton:hover {
+    background-color: #2857b8;
 }
 canvas {
     display: none;
 }
 #linkedinBar {
-    background-color: #0077b5;
-    color: white;
+    background-color: white;
+    color: #0077b5; /* Signal app blue color */
     text-align: center;
-    padding: 10px 0px 0px 0px;
+    padding: 30px 0; /* Add more padding on top and bottom */
     width: 100%;
     position: absolute;
     bottom: 0;
 }
 #linkedinBar a {
-    color: white;
+    color: #0077b5; /* Signal app blue color */
     text-decoration: none;
 }
 #uploadForm {
@@ -148,4 +197,31 @@ canvas {
     display: block;
     width: 100%;
     height: auto;
+}
+
+/* Add media queries for responsiveness */
+@media (max-width: 768px) {
+    #container {
+        padding: 0;
+    }
+    
+    #spotlight {
+        width: 300px;
+        height: 300px;
+    }
+    
+    #intro {
+        padding: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    #spotlight {
+        width: 200px;
+        height: 200px;
+    }
+    
+    #introTitle {
+        font-size: 1.2em;
+    }
 }

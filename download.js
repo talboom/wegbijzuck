@@ -1,36 +1,44 @@
 document.getElementById('downloadButton').addEventListener('click', function() {
-    const canvas = document.getElementById('canvas');
-    const ctx = canvas.getContext('2d');
+    const originalCanvas = document.getElementById('canvas');
     const image = document.querySelector('#imagePreview img');
     const spotlight = document.getElementById('spotlight');
+    
     if (image && spotlight) {
         const img = new Image();
         img.src = image.src;
         img.onload = function() {
-            ctx.drawImage(img, 0, 0);
-            const rect = spotlight.getBoundingClientRect();
-            const previewRect = image.getBoundingClientRect();
-            const x = rect.left - previewRect.left;
-            const y = rect.top - previewRect.top;
+            // Calculate scaling ratio
+            const imageRect = image.getBoundingClientRect();
+            const scaleX = originalCanvas.width / imageRect.width;
+            const scaleY = originalCanvas.height / imageRect.height;
             
-            // Create dark overlay
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            // Get spotlight position relative to image
+            const spotRect = spotlight.getBoundingClientRect();
+            const imagePos = image.getBoundingClientRect();
             
-            // Clear spotlight area
-            ctx.globalCompositeOperation = 'destination-out';
-            ctx.fillStyle = 'white';
-            ctx.fillRect(x, y, rect.width, rect.height);
+            // Calculate scaled coordinates
+            const scaledX = (spotRect.left - imagePos.left) * scaleX;
+            const scaledY = (spotRect.top - imagePos.top) * scaleY;
+            const scaledWidth = spotRect.width * scaleX;
+            const scaledHeight = spotRect.height * scaleY;
             
-            // Draw border
-            ctx.globalCompositeOperation = 'source-over';
-            ctx.strokeStyle = 'rgba(169, 169, 169, 0.5)';
-            ctx.lineWidth = 2;
-            ctx.strokeRect(x, y, rect.width, rect.height);
+            // Create a new canvas for the cropped image
+            const croppedCanvas = document.createElement('canvas');
+            croppedCanvas.width = scaledWidth;
+            croppedCanvas.height = scaledHeight;
+            const ctx = croppedCanvas.getContext('2d');
             
+            // Draw only the spotlight area
+            ctx.drawImage(
+                originalCanvas, 
+                scaledX, scaledY, scaledWidth, scaledHeight,
+                0, 0, scaledWidth, scaledHeight
+            );
+            
+            // Download the image
             const link = document.createElement('a');
-            link.href = canvas.toDataURL();
-            link.download = 'image_with_spotlight.png';
+            link.href = croppedCanvas.toDataURL();
+            link.download = 'signal_profile.png';
             link.click();
         };
     }

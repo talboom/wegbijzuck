@@ -41,6 +41,7 @@ function makeElementDraggable(element) {
 
         const dx = e.clientX - startX;
         const dy = e.clientY - startY;
+        const delta = Math.abs(dx) > Math.abs(dy) ? dx : dy;
         
         const previewRect = document.getElementById('imagePreview').getBoundingClientRect();
         const elementRect = element.getBoundingClientRect();
@@ -57,24 +58,24 @@ function makeElementDraggable(element) {
         switch(currentHandle) {
             case 'nw':
                 // Keep bottom-right corner fixed
-                newWidth = startWidth - dx;
-                newHeight = startHeight - dy;
-                newLeft = startLeft + dx;
-                newTop = startTop + dy;
+                newWidth = startWidth - delta;
+                newHeight = startHeight - delta;
+                newLeft = startLeft + delta;
+                newTop = startTop + delta;
                 break;
             case 'ne':
-                newWidth = startWidth + dx;
-                newHeight = startHeight - dy;
-                newTop = startTop + dy;
+                newWidth = startWidth + delta;
+                newHeight = startHeight - delta;
+                newTop = startTop + delta;
                 break;
             case 'sw':
-                newWidth = startWidth - dx;
-                newHeight = startHeight + dy;
-                newLeft = startLeft + dx;
+                newWidth = startWidth - delta;
+                newHeight = startHeight + delta;
+                newLeft = startLeft + delta;
                 break;
             case 'se':
-                newWidth = startWidth + dx;
-                newHeight = startHeight + dy;
+                newWidth = startWidth + delta;
+                newHeight = startHeight + delta;
                 break;
         }
 
@@ -89,8 +90,6 @@ function makeElementDraggable(element) {
             element.style.left = `${newLeft}px`;
             element.style.top = `${newTop}px`;
         }
-        console.log(dx, dy);
-        console.log(newWidth, newHeight, newLeft, newTop);
     }
 
     function drag(e) {

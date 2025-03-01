@@ -11,9 +11,15 @@ document.getElementById('uploadForm').addEventListener('submit', function(event)
             img.onload = function() {
                 const canvas = document.getElementById('canvas');
                 const ctx = canvas.getContext('2d');
-                canvas.width = img.width;
-                canvas.height = img.height;
-                ctx.drawImage(img, 0, 0);
+                const previewWidth = imagePreview.clientWidth;
+                const imageRatio = img.width / img.height;
+                const canvasWidth = previewWidth;
+                const canvasHeight = canvasWidth / imageRatio;
+                console.log(canvasWidth, canvasHeight);
+                console.log(previewWidth);
+                canvas.width = canvasWidth;
+                canvas.height = canvasHeight;
+                ctx.drawImage(img, 0, 0, canvasWidth, canvasHeight);
                 imagePreview.innerHTML = `
                     <div class="image-container">
                         <img src="${canvas.toDataURL()}" alt="Uploaded Image" style="max-width: 100%;">
@@ -25,16 +31,16 @@ document.getElementById('uploadForm').addEventListener('submit', function(event)
                         </div>
                     </div>`;
                 const spotlight = document.getElementById('spotlight');
-                spotlight.style.width = '400px';
-                spotlight.style.height = '400px';
+                const spotlightSize = Math.min(canvas.width, canvas.height);
+                spotlight.style.width = `${spotlightSize}px`;
+                spotlight.style.height = `${spotlightSize}px`;
                 
                 // Center the spotlight
                 const imageContainer = document.querySelector('.image-container');
-                const leftPosition = (imageContainer.offsetWidth - 400) / 2;
-                const topPosition = (imageContainer.offsetHeight - 400) / 2;
+                const leftPosition = (imageContainer.offsetWidth - spotlightSize) / 2;
+                const topPosition = (imageContainer.offsetHeight - spotlightSize) / 2;
                 spotlight.style.left = `${leftPosition}px`;
                 spotlight.style.top = `${topPosition}px`;
-                
                 document.getElementById('downloadButton').style.display = 'block';
                 document.getElementById('uploadNewImage').style.display = 'inline-block';
                 makeElementDraggable(spotlight);
