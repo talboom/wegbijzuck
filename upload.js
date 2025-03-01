@@ -17,8 +17,18 @@ document.getElementById('uploadForm').addEventListener('submit', function(event)
                 const canvasHeight = canvasWidth / imageRatio;
                 console.log(canvasWidth, canvasHeight);
                 console.log(previewWidth);
+                console.log(imageRatio);
                 canvas.width = canvasWidth;
                 canvas.height = canvasHeight;
+                if (canvasHeight > canvasWidth) {
+                    console.log('if');
+                    console.log(imagePreview.clientWidth);
+                    imagePreview.style.width = `${imagePreview.clientWidth * imageRatio}px`;
+                }else{
+                    console.log('else');
+                    console.log(imagePreview.clientHeight);
+                    imagePreview.style.height = `${imagePreview.clientHeight / imageRatio}px`;
+                }
                 ctx.drawImage(img, 0, 0, canvasWidth, canvasHeight);
                 imagePreview.innerHTML = `
                     <div class="image-container">
@@ -28,10 +38,13 @@ document.getElementById('uploadForm').addEventListener('submit', function(event)
                             <div class="resize-handle ne" data-handle="ne"></div>
                             <div class="resize-handle sw" data-handle="sw"></div>
                             <div class="resize-handle se" data-handle="se"></div>
+                            <div class="circle-view"></div>
+                            <div class="signal-box">ALSO ON SIGNAL</div>
                         </div>
+                        <i id="editIcon" class="fas fa-edit"></i>
                     </div>`;
                 const spotlight = document.getElementById('spotlight');
-                const spotlightSize = Math.min(canvas.width, canvas.height);
+                const spotlightSize = Math.min(imagePreview.clientWidth, imagePreview.clientHeight);
                 spotlight.style.width = `${spotlightSize}px`;
                 spotlight.style.height = `${spotlightSize}px`;
                 
@@ -44,6 +57,15 @@ document.getElementById('uploadForm').addEventListener('submit', function(event)
                 document.getElementById('downloadButton').style.display = 'block';
                 document.getElementById('uploadNewImage').style.display = 'inline-block';
                 makeElementDraggable(spotlight);
+
+                // Update signal box font size and padding based on spotlight size
+                const signalBox = document.querySelector('.signal-box');
+                const fontSize = spotlightSize * 0.08;
+                signalBox.style.fontSize = `${fontSize}px`;
+                
+                const topPadding = spotlightSize * 0.02;
+                const bottomPadding = spotlightSize * 0.10;
+                signalBox.style.padding = `${topPadding}px 0 ${bottomPadding}px`;
             };
         };
         reader.readAsDataURL(file);
@@ -54,8 +76,4 @@ document.getElementById('imageInput').addEventListener('change', function() {
     const fileName = document.querySelector('.file-name');
     fileName.textContent = this.files[0].name;
     document.getElementById('uploadForm').dispatchEvent(new Event('submit'));
-});
-
-document.getElementById('editIcon').addEventListener('click', function() {
-    document.getElementById('imageInput').click();
 });

@@ -89,6 +89,17 @@ function makeElementDraggable(element) {
             element.style.height = `${newHeight}px`;
             element.style.left = `${newLeft}px`;
             element.style.top = `${newTop}px`;
+
+            // Update signal box font size and padding based on spotlight size
+            const signalBox = element.querySelector('.signal-box');
+            if (signalBox) {
+                const fontSize = newWidth * 0.08;
+                signalBox.style.fontSize = `${fontSize}px`;
+                
+                const topPadding = newHeight * 0.02;
+                const bottomPadding = newHeight * 0.10;
+                signalBox.style.padding = `${topPadding}px 0 ${bottomPadding}px`;
+            }
         }
     }
 

@@ -2,8 +2,9 @@ document.getElementById('downloadButton').addEventListener('click', function() {
     const originalCanvas = document.getElementById('canvas');
     const image = document.querySelector('#imagePreview img');
     const spotlight = document.getElementById('spotlight');
+    const signalBox = document.querySelector('.signal-box');
     
-    if (image && spotlight) {
+    if (image && spotlight && signalBox) {
         const img = new Image();
         img.src = image.src;
         img.onload = function() {
@@ -33,6 +34,32 @@ document.getElementById('downloadButton').addEventListener('click', function() {
                 originalCanvas, 
                 scaledX, scaledY, scaledWidth, scaledHeight,
                 0, 0, scaledWidth, scaledHeight
+            );
+            
+            // Add signal box
+            const boxHeight = signalBox.offsetHeight * scaleY;
+            ctx.fillStyle = getComputedStyle(signalBox).backgroundColor;
+            ctx.fillRect(0, scaledHeight - boxHeight, scaledWidth, boxHeight);
+            
+            // Add texts
+            const fontSize = parseFloat(getComputedStyle(signalBox).fontSize) * scaleY;
+            ctx.fillStyle = getComputedStyle(signalBox).color;
+            ctx.font = `900 ${fontSize}px ${getComputedStyle(signalBox).fontFamily}`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            // Calculate text position to vertically center it in the box
+            const textY = scaledHeight * 1.045 - boxHeight + (fontSize * 0.5);
+            console.log(scaledHeight);
+            console.log(boxHeight);
+            console.log(textY);
+            console.log(fontSize);
+
+            
+            // Draw the text
+            ctx.fillText(
+                signalBox.textContent.trim(),
+                scaledWidth / 2,
+                textY
             );
             
             // Download the image
