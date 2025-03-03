@@ -2,10 +2,13 @@ document.getElementById('uploadForm').addEventListener('submit', function(event)
     event.preventDefault();
     const fileInput = document.getElementById('imageInput');
     const file = fileInput.files[0];
+    const currentLang = 'nl'; //document.querySelector('button.active').id === 'nlButton' ? 'nl' : 'en';
+    
     if (file) {
         const reader = new FileReader();
         reader.onload = function(e) {
             const imagePreview = document.getElementById('imagePreview');
+            imagePreview.style.display = 'inline-block';
             const img = new Image();
             img.src = e.target.result;
             img.onload = function() {
@@ -39,10 +42,9 @@ document.getElementById('uploadForm').addEventListener('submit', function(event)
                             <div class="resize-handle sw" data-handle="sw"></div>
                             <div class="resize-handle se" data-handle="se"></div>
                             <div class="circle-view"></div>
-                            <div class="signal-box">ALSO ON SIGNAL</div>
+                            <div class="signal-box">${currentLang === 'nl' ? 'Ook op Signal' : 'Also on Signal'}</div>
                         </div>
-                        <i id="editIcon" class="fas fa-edit"></i>
-                    </div>`;
+                                            </div>`;
                 const spotlight = document.getElementById('spotlight');
                 const spotlightSize = Math.min(imagePreview.clientWidth, imagePreview.clientHeight);
                 spotlight.style.width = `${spotlightSize}px`;

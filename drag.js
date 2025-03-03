@@ -41,10 +41,8 @@ function makeElementDraggable(element) {
 
         const dx = e.clientX - startX;
         const dy = e.clientY - startY;
-        const delta = Math.abs(dx) > Math.abs(dy) ? dx : dy;
         
         const previewRect = document.getElementById('imagePreview').getBoundingClientRect();
-        const elementRect = element.getBoundingClientRect();
         
         let newWidth = startWidth;
         let newHeight = startHeight;
@@ -57,23 +55,26 @@ function makeElementDraggable(element) {
 
         switch(currentHandle) {
             case 'nw':
-                // Keep bottom-right corner fixed
+                var delta = Math.abs(dx) > Math.abs(dy) ? dx : dy;
                 newWidth = startWidth - delta;
                 newHeight = startHeight - delta;
                 newLeft = startLeft + delta;
                 newTop = startTop + delta;
                 break;
             case 'ne':
-                newWidth = startWidth + delta;
+                var delta = Math.abs(dx) > Math.abs(dy) ? -dx : dy;
+                newWidth = startWidth - delta;
                 newHeight = startHeight - delta;
                 newTop = startTop + delta;
                 break;
             case 'sw':
-                newWidth = startWidth - delta;
+                var delta = Math.abs(dx) > Math.abs(dy) ? -dx : dy;
+                newWidth = startWidth + delta;
                 newHeight = startHeight + delta;
-                newLeft = startLeft + delta;
+                newLeft = startLeft - delta;
                 break;
             case 'se':
+                var delta = Math.abs(dx) > Math.abs(dy) ? dx : dy;
                 newWidth = startWidth + delta;
                 newHeight = startHeight + delta;
                 break;

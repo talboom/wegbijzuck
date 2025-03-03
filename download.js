@@ -3,6 +3,7 @@ document.getElementById('downloadButton').addEventListener('click', function() {
     const image = document.querySelector('#imagePreview img');
     const spotlight = document.getElementById('spotlight');
     const signalBox = document.querySelector('.signal-box');
+    const currentLang = document.querySelector('#toggleLang button.active').id === 'nlButton' ? 'nl' : 'en';
     
     if (image && spotlight && signalBox) {
         const img = new Image();
@@ -41,7 +42,7 @@ document.getElementById('downloadButton').addEventListener('click', function() {
             ctx.fillStyle = getComputedStyle(signalBox).backgroundColor;
             ctx.fillRect(0, scaledHeight - boxHeight, scaledWidth, boxHeight);
             
-            // Add texts
+            // Add text
             const fontSize = parseFloat(getComputedStyle(signalBox).fontSize) * scaleY;
             ctx.fillStyle = getComputedStyle(signalBox).color;
             ctx.font = `900 ${fontSize}px ${getComputedStyle(signalBox).fontFamily}`;
@@ -49,15 +50,13 @@ document.getElementById('downloadButton').addEventListener('click', function() {
             ctx.textBaseline = 'middle';
             // Calculate text position to vertically center it in the box
             const textY = scaledHeight * 1.045 - boxHeight + (fontSize * 0.5);
-            console.log(scaledHeight);
-            console.log(boxHeight);
-            console.log(textY);
-            console.log(fontSize);
-
+            
+            // Set text based on current language
+            const signalText = currentLang === 'nl' ? 'Ook op Signal' : 'Also on Signal';
             
             // Draw the text
             ctx.fillText(
-                signalBox.textContent.trim(),
+                signalText,
                 scaledWidth / 2,
                 textY
             );
